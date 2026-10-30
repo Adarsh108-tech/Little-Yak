@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  
+  /* Little Yak Brand Colors */
+  --color-yak-red: #8B1E28;
+  --color-yak-red-dark: #66121B;
+  --color-yak-gold: #D97706;
+  --color-yak-amber: #F59E0B;
+  --color-yak-cream: #FAF7F2;
+  --color-yak-stone: #1C1917;
+  --color-yak-dark: #121110;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #121110;
+  color: #FAF7F2;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Custom Tibetan prayer-flag ribbon gradient */
+.bg-prayer-flags {
+  background: linear-gradient(
+    90deg,
+    #2563EB 0%, #2563EB 20%,
+    #F8FAFC 20%, #F8FAFC 40%,
+    #DC2626 40%, #DC2626 60%,
+    #16A34A 60%, #16A34A 80%,
+    #EAB308 80%, #EAB308 100%
+  );
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #181716;
+}
+::-webkit-scrollbar-thumb {
+  background: #383430;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D97706;
+}
+
+/* Subtle glow */
+.gold-glow {
+  box-shadow: 0 0 25px rgba(217, 119, 6, 0.25);
+}
+
+.gold-glow-lg {
+  box-shadow: 0 0 45px rgba(217, 119, 6, 0.35);
+}
+
+/* Card hover transitions */
+.dish-card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.dish-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(217, 119, 6, 0.15);
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
