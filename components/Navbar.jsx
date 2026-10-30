@@ -87,8 +87,8 @@ export default function Navbar({
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           theme === "light"
             ? scrolled
-              ? "bg-white/95 backdrop-blur-md shadow-md py-1.5 sm:py-3 border-b border-stone-200 text-stone-900"
-              : "bg-gradient-to-b from-white/95 via-white/80 to-transparent py-2 sm:py-3.5 text-stone-900"
+              ? "bg-[#FAF7F2]/96 backdrop-blur-md shadow-sm py-1.5 sm:py-3 border-b border-[#E5DACE] text-stone-900"
+              : "bg-gradient-to-b from-[#FAF7F2]/96 via-[#FAF7F2]/82 to-transparent py-2 sm:py-3.5 text-stone-900"
             : scrolled
             ? "bg-[#141210]/95 backdrop-blur-md shadow-2xl py-1.5 sm:py-3 border-b border-[#2D2824] text-white"
             : "bg-gradient-to-b from-[#121110]/95 via-[#121110]/75 to-transparent py-2 sm:py-3.5 text-white"

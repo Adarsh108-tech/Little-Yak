@@ -26,7 +26,7 @@ export default function LocationHours({ lang, theme = "dark", onOpenReservation 
     <section
       id="acces"
       className={`min-h-[calc(100dvh-3.5rem)] sm:min-h-[calc(100dvh-4rem)] flex flex-col justify-center py-8 sm:py-12 md:py-16 relative overflow-hidden w-full transition-colors duration-300 ${
-        theme === "light" ? "bg-white" : "bg-[#121110]"
+        theme === "light" ? "bg-[#FAF7F2]" : "bg-[#121110]"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -83,8 +83,12 @@ export default function LocationHours({ lang, theme = "dark", onOpenReservation 
                     {lang === "fr" ? "Horaires d'Ouverture" : "Opening Hours"}
                   </h3>
                 </div>
-                <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-[10px] sm:text-[11px] font-bold text-emerald-300">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className={`inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border text-[10px] sm:text-[11px] font-bold ${
+                  theme === "light"
+                    ? "bg-emerald-50 border-emerald-200 text-emerald-900"
+                    : "bg-emerald-950/80 border-emerald-500/40 text-emerald-300"
+                }`}>
+                  <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${theme === "light" ? "bg-emerald-700" : "bg-emerald-400"}`} />
                   {lang === "fr" ? "Ouvert 7j / 7" : "Open 7/7"}
                 </span>
               </div>
@@ -100,7 +104,9 @@ export default function LocationHours({ lang, theme = "dark", onOpenReservation 
                       transition={{ duration: 0.2 }}
                       className={`flex items-center justify-between p-2 rounded-xl transition-colors ${
                         isToday
-                          ? "bg-[#8B1E28]/35 border border-[#F59E0B]/50 font-bold text-white shadow-md"
+                          ? theme === "light"
+                            ? "bg-[#8B1E28]/10 border border-[#8B1E28]/25 font-bold text-[#6E1720]"
+                            : "bg-[#8B1E28]/35 border border-[#F59E0B]/50 font-bold text-white shadow-md"
                           : theme === "light"
                           ? "text-stone-700 hover:bg-stone-100"
                           : "text-[#D6D3D1] hover:bg-[#24201D]"

@@ -64,7 +64,7 @@ export default function MenuSection({ lang, theme = "dark", onAddToCart, onOpenC
     <section
       id="menu"
       className={`min-h-[calc(100dvh-3.5rem)] sm:min-h-[calc(100dvh-4rem)] flex flex-col justify-center py-8 sm:py-12 md:py-16 relative overflow-hidden w-full transition-colors duration-300 ${
-        theme === "light" ? "bg-white" : "bg-[#121110]"
+        theme === "light" ? "bg-[#F1E9DE]" : "bg-[#121110]"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -182,7 +182,9 @@ export default function MenuSection({ lang, theme = "dark", onAddToCart, onOpenC
                 onClick={() => setFilterVege(!filterVege)}
                 className={`flex-1 sm:flex-none justify-center px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 transition-colors border ${
                   filterVege
-                    ? "bg-emerald-950/80 text-emerald-300 border-emerald-500/60"
+                    ? theme === "light"
+                      ? "bg-emerald-100 text-emerald-900 border-emerald-300"
+                      : "bg-emerald-950/80 text-emerald-300 border-emerald-500/60"
                     : theme === "light"
                     ? "bg-stone-100 text-stone-700 border-stone-200 hover:text-stone-900"
                     : "bg-[#1E1C1A] text-[#A8A29E] border-[#332E2A] hover:text-white"
@@ -198,7 +200,9 @@ export default function MenuSection({ lang, theme = "dark", onAddToCart, onOpenC
                 onClick={() => setFilterSpicy(!filterSpicy)}
                 className={`flex-1 sm:flex-none justify-center px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 transition-colors border ${
                   filterSpicy
-                    ? "bg-rose-950/80 text-rose-300 border-rose-500/60"
+                    ? theme === "light"
+                      ? "bg-rose-100 text-rose-900 border-rose-300"
+                      : "bg-rose-950/80 text-rose-300 border-rose-500/60"
                     : theme === "light"
                     ? "bg-stone-100 text-stone-700 border-stone-200 hover:text-stone-900"
                     : "bg-[#1E1C1A] text-[#A8A29E] border-[#332E2A] hover:text-white"

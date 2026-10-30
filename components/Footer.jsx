@@ -16,9 +16,6 @@ export default function Footer({ lang, theme = "dark", setLang, onOpenReservatio
         ? "bg-stone-100 text-stone-600 border-stone-200"
         : "bg-[#0E0D0C] text-[#A8A29E] border-[#24201D]"
     }`}>
-      {/* Decorative Prayer Flag Ribbon */}
-      <div className="w-full h-1 bg-prayer-flags opacity-80" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-24 lg:pb-16">
         <FadeInOnScroll className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Info */}

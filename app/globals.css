@@ -39,18 +39,6 @@ body {
   font-family: var(--font-serif);
 }
 
-/* Custom Tibetan prayer-flag ribbon gradient */
-.bg-prayer-flags {
-  background: linear-gradient(
-    90deg,
-    #2563EB 0%, #2563EB 20%,
-    #F8FAFC 20%, #F8FAFC 40%,
-    #DC2626 40%, #DC2626 60%,
-    #16A34A 60%, #16A34A 80%,
-    #EAB308 80%, #EAB308 100%
-  );
-}
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -94,34 +82,48 @@ body {
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ==========================================================================
-   Light Mode Theme Styling (Dark <-> Light toggling)
-   ========================================================================== */
-
-html.light,
-html.light body,
-[data-theme="light"],
-[data-theme="light"] body {
-  background-color: #FFFFFF !important;
-  color: #1C1917 !important;
+/* ========================================================================== */
+/* Warm light theme: semantic surfaces and readable text, scoped to light mode */
+/* ========================================================================== */
+html.light {
   color-scheme: light;
+  --ly-page: #FAF7F2;
+  --ly-parchment: #F1E9DE;
+  --ly-card: #FFFEFB;
+  --ly-ink: #24201D;
+  --ly-muted: #6B6259;
+  --ly-border: #E5DACE;
+  --ly-amber-ink: #8F4B00;
 }
 
-/* Backgrounds in Light Mode - Attribute selectors for 100% browser reliability */
+html.light body,
+html.light [data-theme="light"] {
+  background-color: var(--ly-page);
+  color: var(--ly-ink);
+}
+
+/* Translate legacy dark surfaces into three intentional light surfaces. */
 html.light [class*="bg-[#121110]"],
 html.light [class*="bg-[#0E0D0C]"],
-html.light [class*="bg-[#131110]"],
-[data-theme="light"] [class*="bg-[#121110]"],
-[data-theme="light"] [class*="bg-[#0E0D0C]"],
-[data-theme="light"] [class*="bg-[#131110]"] {
-  background-color: #FFFFFF !important;
+html.light [class*="bg-[#131110]"] {
+  background-color: var(--ly-page);
 }
 
 html.light [class*="bg-[#161413]"],
 html.light [class*="bg-[#141210]"],
-[data-theme="light"] [class*="bg-[#161413]"],
-[data-theme="light"] [class*="bg-[#141210]"] {
-  background-color: #F8F6F2 !important;
+html.light [class*="bg-[#201D1B]"],
+html.light [class*="bg-[#221F1D]"],
+html.light [class*="bg-[#241F1C]"],
+html.light [class*="bg-[#24201D]"],
+html.light [class*="bg-[#25211E]"],
+html.light [class*="bg-[#272320]"],
+html.light [class*="bg-[#2B2724]"],
+html.light [class*="bg-[#2C2824]"],
+html.light [class*="bg-[#2C2825]"],
+html.light [class*="bg-[#2c2825]"],
+html.light [class*="bg-[#332E2A]"],
+html.light [class*="bg-[#38332E]"] {
+  background-color: var(--ly-parchment);
 }
 
 html.light [class*="bg-[#181614]"],
@@ -131,73 +133,70 @@ html.light [class*="bg-[#1C1A18]"],
 html.light [class*="bg-[#1E1B19]"],
 html.light [class*="bg-[#1E1C1A]"],
 html.light [class*="bg-[#1F1C1A]"],
-[data-theme="light"] [class*="bg-[#181614]"],
-[data-theme="light"] [class*="bg-[#191715]"],
-[data-theme="light"] [class*="bg-[#1A1816]"],
-[data-theme="light"] [class*="bg-[#1C1A18]"],
-[data-theme="light"] [class*="bg-[#1E1B19]"],
-[data-theme="light"] [class*="bg-[#1E1C1A]"],
-[data-theme="light"] [class*="bg-[#1F1C1A]"] {
-  background-color: #FFFFFF !important;
+html.light [class*="bg-white"],
+html.light [class*="bg-stone-50"] {
+  background-color: var(--ly-card);
 }
 
-html.light [class*="bg-[#201D1B]"],
-html.light [class*="bg-[#221F1D]"],
-html.light [class*="bg-[#241F1C]"],
-html.light [class*="bg-[#24201D]"],
-html.light [class*="bg-[#25211E]"],
-html.light [class*="bg-[#272320]"],
-html.light [class*="bg-[#38332E]"],
-[data-theme="light"] [class*="bg-[#201D1B]"],
-[data-theme="light"] [class*="bg-[#221F1D]"],
-[data-theme="light"] [class*="bg-[#241F1C]"],
-[data-theme="light"] [class*="bg-[#24201D]"],
-[data-theme="light"] [class*="bg-[#25211E]"],
-[data-theme="light"] [class*="bg-[#272320]"],
-[data-theme="light"] [class*="bg-[#38332E]"] {
-  background-color: #F2EDE4 !important;
+html.light [class*="bg-stone-100"] {
+  background-color: var(--ly-parchment);
 }
 
-/* Text Colors in Light Mode */
-html.light .text-white:not([class*="bg-[#8B1E28]"]):not([class*="bg-gradient-to"]):not([class*="bg-black"]),
-[data-theme="light"] .text-white:not([class*="bg-[#8B1E28]"]):not([class*="bg-gradient-to"]):not([class*="bg-black"]) {
-  color: #1C1917 !important;
+/* Legacy light text colors and muted grays use warm, AA-readable ink. */
+html.light .text-white,
+html.light [class~="text-[#FAF7F2]"],
+html.light [class~="text-[#E7E5E4]"],
+html.light [class~="text-[#D6D3D1]"] {
+  color: var(--ly-ink);
 }
 
-html.light [class*="text-[#FAF7F2]"],
-html.light [class*="text-[#E7E5E4]"],
-[data-theme="light"] [class*="text-[#FAF7F2]"],
-[data-theme="light"] [class*="text-[#E7E5E4]"] {
-  color: #292524 !important;
+html.light .text-white[class*="bg-[#8B1E28]"],
+html.light .text-white[class*="bg-gradient-to-r"],
+html.light [class*="bg-[#8B1E28]"] .text-white,
+html.light [class*="bg-gradient-to-r"] .text-white,
+html.light [class*="bg-gradient-to-t"] .text-white,
+html.light [class*="bg-black"] .text-white {
+  color: #FFFFFF;
 }
 
-html.light [class*="text-[#D6D3D1]"],
-[data-theme="light"] [class*="text-[#D6D3D1]"] {
-  color: #44403C !important;
+html.light [class~="text-[#A8A29E]"],
+html.light [class~="text-[#8C857F]"],
+html.light [class~="text-[#78716C]"],
+html.light [class~="text-[#6B6560]"],
+html.light [class~="text-stone-500"],
+html.light [class~="text-stone-400"] {
+  color: var(--ly-muted);
 }
 
-html.light [class*="text-[#A8A29E]"],
-[data-theme="light"] [class*="text-[#A8A29E]"] {
-  color: #57534E !important;
+html.light [class~="text-[#D97706]"],
+html.light [class~="text-[#F59E0B]"],
+html.light [class~="text-[#FBBF24]"],
+html.light [class~="hover:text-[#D97706]"]:hover {
+  color: var(--ly-amber-ink);
 }
 
-html.light [class*="text-[#8C857F]"],
-html.light [class*="text-[#78716C]"],
-[data-theme="light"] [class*="text-[#8C857F]"],
-[data-theme="light"] [class*="text-[#78716C]"] {
-  color: #78716C !important;
+html.light [class*="bg-[#8B1E28]"] [class~="text-[#FBBF24]"],
+html.light [class*="bg-gradient-to-r"] [class~="text-[#FBBF24]"] {
+  color: #FBBF24;
 }
 
-/* Preserve White Text on Tibetan Red & Colored Buttons */
-html.light [class*="bg-[#8B1E28]"],
-html.light [class*="bg-gradient-to-r"] button,
-html.light button[class*="bg-[#8B1E28]"],
-html.light a[class*="bg-[#8B1E28]"],
-html.light span[class*="bg-[#8B1E28]"] {
-  color: #FFFFFF !important;
+html.light [class~="text-[#00CDBC]"] {
+  color: #006D63;
 }
 
-/* Borders in Light Mode */
+html.light [class~="text-[#25D366]"] {
+  color: #087A3D;
+}
+
+html.light [class*="bg-gradient-to-t"] [class~="text-[#D97706]"],
+html.light [class*="bg-gradient-to-t"] [class~="text-[#F59E0B]"] {
+  color: #FBBF24;
+}
+
+html.light [class*="bg-gradient-to-t"] [class~="text-[#D6D3D1]"] {
+  color: #E7E5E4;
+}
+
 html.light [class*="border-[#1F1C1A]"],
 html.light [class*="border-[#24201D]"],
 html.light [class*="border-[#2A2622]"],
@@ -210,82 +209,47 @@ html.light [class*="border-[#38332E]"],
 html.light [class*="border-[#3E3832]"],
 html.light [class*="border-[#443E38]"],
 html.light [class*="border-white/10"],
-[data-theme="light"] [class*="border-[#2D2824]"],
-[data-theme="light"] [class*="border-[#332E2A]"],
-[data-theme="light"] [class*="border-[#38332E]"],
-[data-theme="light"] [class*="border-[#3E3832]"] {
-  border-color: #E6E0D6 !important;
+html.light [class*="border-stone-200"],
+html.light [class*="border-stone-300"] {
+  border-color: var(--ly-border);
 }
 
-/* Header in Light Mode */
-html.light header,
-[data-theme="light"] header {
-  background: rgba(255, 255, 255, 0.94) !important;
-  border-bottom: 1px solid #E6E0D6 !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
-}
-
-html.light header a,
-html.light header nav a,
-[data-theme="light"] header a,
-[data-theme="light"] header nav a {
-  color: #292524 !important;
-}
-
-html.light header a:hover,
-html.light header nav a:hover,
-[data-theme="light"] header a:hover,
-[data-theme="light"] header nav a:hover {
-  color: #D97706 !important;
-}
-
-/* Hero Section Overlay in Light Mode */
-html.light #accueil [class*="bg-gradient-to-t"],
-[data-theme="light"] #accueil [class*="bg-gradient-to-t"] {
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(255, 255, 255, 0.88) 50%,
-    rgba(255, 255, 255, 0.72) 100%
-  ) !important;
-}
-
-/* Mobile Sticky Bar in Light Mode */
-html.light .safe-area-bottom,
-[data-theme="light"] .safe-area-bottom {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  border-top-color: #E6E0D6 !important;
-}
-
-/* Form Inputs in Light Mode */
 html.light input,
 html.light textarea,
-html.light select,
-[data-theme="light"] input,
-[data-theme="light"] textarea,
-[data-theme="light"] select {
-  background-color: #F8F6F2 !important;
-  color: #1C1917 !important;
-  border-color: #DDD6C9 !important;
+html.light select {
+  background-color: var(--ly-card);
+  color: var(--ly-ink);
+  border-color: var(--ly-border);
 }
 
 html.light input::placeholder,
-html.light textarea::placeholder,
-[data-theme="light"] input::placeholder,
-[data-theme="light"] textarea::placeholder {
-  color: #8C857F !important;
+html.light textarea::placeholder {
+  color: var(--ly-muted);
+  opacity: 1;
 }
 
-/* Scrollbar in Light Mode */
-html.light ::-webkit-scrollbar-track,
-[data-theme="light"] ::-webkit-scrollbar-track {
-  background: #F8F6F2;
+html.light :focus-visible {
+  outline: 2px solid var(--ly-amber-ink);
+  outline-offset: 2px;
 }
-html.light ::-webkit-scrollbar-thumb,
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: #DDD6C9;
+
+html.light .dish-card-hover:hover {
+  box-shadow: 0 12px 24px -12px rgb(36 32 29 / 22%);
 }
-html.light ::-webkit-scrollbar-thumb:hover,
-[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: #D97706;
+
+html.light .safe-area-bottom {
+  background-color: rgb(255 254 251 / 96%);
+  border-top-color: var(--ly-border);
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: var(--ly-page);
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: var(--ly-border);
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: var(--ly-amber-ink);
 }

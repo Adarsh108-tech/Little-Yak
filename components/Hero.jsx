@@ -52,9 +52,16 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
   };
 
   return (
+    /*
+      The fixed header overlays the hero (hero starts at y = 0), so nothing is
+      subtracted from the height: the hero is a full small-viewport-height flex
+      column. Top padding clears the header; the content block is centred with
+      my-auto and the scroll hint sits at the bottom. min-h (not h) lets it grow
+      on short screens instead of clipping.
+    */
     <section
       id="accueil"
-      className="relative min-h-[calc(100dvh-3.5rem)] sm:min-h-[calc(100dvh-4rem)] flex items-center justify-center pt-14 sm:pt-20 pb-8 sm:pb-12 overflow-hidden w-full"
+      className="relative min-h-svh flex flex-col items-center pt-14 sm:pt-16 pb-4 sm:pb-6 overflow-hidden w-full"
     >
       {/* Background Image with Ambient Breathing Zoom Animation */}
       <motion.div
@@ -75,7 +82,7 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             theme === "light"
-              ? "bg-gradient-to-t from-white via-white/92 to-white/80"
+              ? "bg-gradient-to-t from-[#FAF7F2]/82 via-[#FAF7F2]/66 to-[#FAF7F2]/42"
               : "bg-gradient-to-t from-[#121110] via-[#121110]/85 to-[#121110]/65"
           }`}
         />
@@ -109,18 +116,18 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         }}
       />
 
-      {/* Main Content with Stagger Motion */}
+      {/* Main Content with Stagger Motion (centred in the space below the header) */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center w-full"
+        className="relative z-10 max-w-5xl mx-auto my-auto py-6 sm:py-8 px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center w-full"
       >
         {/* Tibetan Greeting Badge */}
         <motion.div
           variants={itemVariants}
           whileHover={{ scale: 1.04 }}
-          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border backdrop-blur-md mb-2.5 sm:mb-4 shadow-md transition-colors cursor-default ${
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border backdrop-blur-md mb-3 sm:mb-4 shadow-md transition-colors cursor-default ${
             theme === "light"
               ? "bg-amber-50/90 border-amber-300 text-amber-900"
               : "bg-[#241F1C]/90 border-[#D97706]/40 text-[#F59E0B]"
@@ -139,9 +146,9 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         {/* Rating & Recognition Banner */}
         <motion.div
           variants={itemVariants}
-          className={`flex items-center gap-1.5 sm:gap-2 mb-2.5 sm:mb-3 px-3 py-0.5 sm:py-1 rounded-full border text-[11px] sm:text-xs backdrop-blur-sm shadow-sm ${
+          className={`flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5 px-3 py-0.5 sm:py-1 rounded-full border text-[11px] sm:text-xs backdrop-blur-sm shadow-sm ${
             theme === "light"
-              ? "bg-white/85 border-stone-200 text-stone-800"
+          ? "bg-[#FFFEFB]/88 border-stone-200 text-stone-800"
               : "bg-black/40 border-white/10 text-white"
           }`}
         >
@@ -160,7 +167,7 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         {/* Main Grand Heading */}
         <motion.h1
           variants={itemVariants}
-          className={`font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-2 sm:mb-3 leading-tight ${
+          className={`font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-3 sm:mb-4 leading-tight ${
             theme === "light" ? "text-stone-950" : "text-white"
           }`}
         >
@@ -173,7 +180,7 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         {/* Evocative Description */}
         <motion.p
           variants={itemVariants}
-          className={`max-w-2xl text-xs sm:text-base md:text-lg mb-4 sm:mb-6 leading-relaxed font-light px-2 sm:px-0 ${
+          className={`max-w-2xl text-sm sm:text-base md:text-lg mb-5 sm:mb-6 leading-relaxed font-light px-2 sm:px-0 ${
             theme === "light" ? "text-stone-700" : "text-[#D6D3D1]"
           }`}
         >
@@ -185,7 +192,7 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         {/* Feature Highlights Pills with Stagger */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap justify-center gap-1.5 sm:gap-2.5 mb-4 sm:mb-6 max-w-3xl"
+          className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mb-5 sm:mb-7 max-w-3xl"
         >
           {[
             { icon: "🥟", fr: "Momos faits main", en: "Handmade momos folded daily" },
@@ -197,9 +204,9 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
               key={i}
               variants={badgeVariants}
               whileHover={{ y: -2, scale: 1.02 }}
-              className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] sm:text-xs font-medium cursor-default shadow-sm ${
+              className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 py-1 rounded-lg border text-[11px] sm:text-xs font-medium cursor-default shadow-sm ${
                 theme === "light"
-                  ? "bg-white/95 border-stone-200 text-stone-800"
+                  ? "bg-[#FFFEFB]/92 border-stone-200 text-stone-800"
                   : "bg-[#272320]/80 border-[#3E3832] text-[#FAF7F2]"
               }`}
             >
@@ -211,7 +218,7 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
         {/* Call to Actions with Interactive Spring Hover */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto mb-5 sm:mb-8"
+          className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto mb-6 sm:mb-8"
         >
           {/* Reserve Table */}
           <motion.button
@@ -246,7 +253,7 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
             whileTap={{ scale: 0.96 }}
             className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold border transition-all ${
               theme === "light"
-                ? "bg-white hover:bg-stone-50 text-stone-800 border-stone-300 shadow-sm hover:text-[#D97706]"
+                ? "bg-[#FFFEFB] hover:bg-[#F1E9DE] text-stone-800 border-stone-300 shadow-sm hover:text-[#8F4B00]"
                 : "bg-[#1C1A18]/90 hover:bg-[#2B2724] text-[#E7E5E4] border-[#3E3832] hover:text-[#F59E0B]"
             }`}
           >
@@ -255,16 +262,16 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
           </motion.button>
         </motion.div>
 
-        {/* Quick Contact & Metro Info Strip */}
+        {/* Quick Contact & Metro Info Strip (wraps naturally instead of truncating) */}
         <motion.div
           variants={itemVariants}
-          className={`w-full pt-3 sm:pt-4 border-t grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 text-[11px] sm:text-xs ${
+          className={`w-full pt-4 sm:pt-5 border-t flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-8 gap-y-2.5 text-[11px] sm:text-xs ${
             theme === "light" ? "border-stone-200 text-stone-600" : "border-white/10 text-[#A8A29E]"
           }`}
         >
           <div className="flex items-center justify-center gap-1.5 sm:gap-2">
             <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D97706] shrink-0" />
-            <span className="truncate">61 Rue Quincampoix, 75004 Paris</span>
+            <span>61 Rue Quincampoix, 75004 Paris</span>
           </div>
           <div className="flex items-center justify-center gap-1.5 sm:gap-2">
             <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D97706] shrink-0" />
@@ -279,19 +286,21 @@ export default function Hero({ lang, theme = "dark", onOpenReservation, onOpenCa
             </a>
           </div>
         </motion.div>
-
-        {/* Subtle Scroll Down Prompt */}
-        <motion.a
-          variants={itemVariants}
-          href="#cave"
-          className={`mt-3 sm:mt-5 transition-colors flex flex-col items-center gap-0.5 text-[10px] sm:text-xs ${
-            theme === "light" ? "text-stone-500 hover:text-stone-900" : "text-[#A8A29E] hover:text-[#F59E0B]"
-          }`}
-        >
-          <span>{lang === "fr" ? "Explorer l'expérience Little Yak" : "Explore the Little Yak Experience"}</span>
-          <ChevronDown className="w-3.5 h-3.5 animate-bounce text-[#D97706]" />
-        </motion.a>
       </motion.div>
+
+      {/* Subtle Scroll Down Prompt — anchored to the bottom of the hero */}
+      <motion.a
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.6 }}
+        href="#cave"
+        className={`relative z-10 shrink-0 transition-colors flex flex-col items-center gap-0.5 text-[10px] sm:text-xs ${
+          theme === "light" ? "text-stone-500 hover:text-stone-900" : "text-[#A8A29E] hover:text-[#F59E0B]"
+        }`}
+      >
+        <span>{lang === "fr" ? "Explorer l'expérience Little Yak" : "Explore the Little Yak Experience"}</span>
+        <ChevronDown className="w-3.5 h-3.5 animate-bounce text-[#D97706]" />
+      </motion.a>
     </section>
   );
 }
