@@ -18,9 +18,40 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [lang, setLang] = useState("fr");
+  const [theme, setTheme] = useState("dark");
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isReservationOpen, setIsReservationOpen] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("littleyak-theme");
+    if (savedTheme === "light") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTheme("light");
+      document.documentElement.classList.add("light");
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  }, []);
+
+  const handleToggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    try {
+      localStorage.setItem("littleyak-theme", nextTheme);
+    } catch {
+      // ignore
+    }
+    if (nextTheme === "light") {
+      document.documentElement.classList.add("light");
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  };
 
   // Cart total count
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
@@ -81,21 +112,29 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#121110] text-[#FAF7F2]">
+    <div
+      data-theme={theme}
+      className={`relative min-h-screen overflow-x-hidden w-full max-w-full transition-colors duration-300 ${
+        theme === "light" ? "bg-white text-stone-900" : "bg-[#121110] text-[#FAF7F2]"
+      }`}
+    >
       {/* Top Navbar */}
       <Navbar
         lang={lang}
         setLang={setLang}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
         cartCount={cartCount}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenReservation={() => setIsReservationOpen(true)}
       />
 
       {/* Main Content Sections */}
-      <main>
+      <main className="w-full max-w-full overflow-x-hidden">
         {/* 1. Hero Section */}
         <Hero
           lang={lang}
+          theme={theme}
           onOpenReservation={() => setIsReservationOpen(true)}
           onOpenCart={() => setIsCartOpen(true)}
         />
@@ -103,28 +142,31 @@ export default function Home() {
         {/* 2. Medieval Stone Vault & Heritage Story */}
         <StoryVault
           lang={lang}
+          theme={theme}
           onOpenReservation={() => setIsReservationOpen(true)}
         />
 
         {/* 3. Interactive Menu & Specialties */}
         <MenuSection
           lang={lang}
+          theme={theme}
           onAddToCart={handleAddToCart}
           onOpenCart={() => setIsCartOpen(true)}
         />
 
         {/* 4. High-Res Photo Gallery with Lightbox */}
-        <GallerySection lang={lang} />
+        <GallerySection lang={lang} theme={theme} />
 
         {/* 5. Verified Customer Reviews & Review Form */}
-        <ReviewsSection lang={lang} />
+        <ReviewsSection lang={lang} theme={theme} />
 
         {/* 6. Interactive FAQ Accordion */}
-        <FaqSection lang={lang} />
+        <FaqSection lang={lang} theme={theme} />
 
         {/* 7. Opening Hours, Metro Access & Interactive Map */}
         <LocationHours
           lang={lang}
+          theme={theme}
           onOpenReservation={() => setIsReservationOpen(true)}
         />
       </main>
@@ -132,6 +174,7 @@ export default function Home() {
       {/* Footer */}
       <Footer
         lang={lang}
+        theme={theme}
         setLang={setLang}
         onOpenReservation={() => setIsReservationOpen(true)}
       />
@@ -145,6 +188,7 @@ export default function Home() {
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
         lang={lang}
+        theme={theme}
       />
 
       {/* Table Reservation Interactive Modal */}
@@ -152,6 +196,7 @@ export default function Home() {
         isOpen={isReservationOpen}
         onClose={() => setIsReservationOpen(false)}
         lang={lang}
+        theme={theme}
       />
 
       {/* Floating Cart Button (with spring entrance) */}
@@ -179,6 +224,7 @@ export default function Home() {
       {/* Mobile Sticky Action Bar */}
       <MobileStickyBar
         lang={lang}
+        theme={theme}
         onOpenReservation={() => setIsReservationOpen(true)}
       />
     </div>

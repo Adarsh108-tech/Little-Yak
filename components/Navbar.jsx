@@ -12,12 +12,16 @@ import {
   Globe,
   MapPin,
   ChevronRight,
+  Sun,
+  Moon,
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar({
   lang,
   setLang,
+  theme = "dark",
+  onToggleTheme,
   cartCount,
   onOpenCart,
   onOpenReservation,
@@ -25,14 +29,6 @@ export default function Navbar({
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOpenNow, setIsOpenNow] = useState(true);
-
-  // Scroll Progress indicator
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,21 +82,16 @@ export default function Navbar({
 
   return (
     <>
-      {/* Top Tibetan Cultural Prayer Flag Ribbon */}
-      <div className="w-full h-1 bg-prayer-flags fixed top-0 left-0 z-50 opacity-90 pointer-events-none" />
-
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#D97706] via-[#F59E0B] to-[#FBBF24] origin-left z-50 pointer-events-none"
-        style={{ scaleX }}
-      />
-
       {/* Main Header Container - Compact on mobile (py-2), spacious on desktop (sm:py-3.5) */}
       <header
-        className={`fixed top-1 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled
-            ? "bg-[#141210]/95 backdrop-blur-md shadow-2xl py-1.5 sm:py-3 border-b border-[#2D2824]"
-            : "bg-gradient-to-b from-[#121110]/95 via-[#121110]/75 to-transparent py-2 sm:py-3.5"
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          theme === "light"
+            ? scrolled
+              ? "bg-white/95 backdrop-blur-md shadow-md py-1.5 sm:py-3 border-b border-stone-200 text-stone-900"
+              : "bg-gradient-to-b from-white/95 via-white/80 to-transparent py-2 sm:py-3.5 text-stone-900"
+            : scrolled
+            ? "bg-[#141210]/95 backdrop-blur-md shadow-2xl py-1.5 sm:py-3 border-b border-[#2D2824] text-white"
+            : "bg-gradient-to-b from-[#121110]/95 via-[#121110]/75 to-transparent py-2 sm:py-3.5 text-white"
         }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -125,7 +116,11 @@ export default function Navbar({
               {/* Company Title */}
               <div className="flex flex-col min-w-0 justify-center">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-serif text-base sm:text-xl lg:text-2xl font-bold tracking-tight text-white group-hover:text-[#F59E0B] transition-colors leading-tight whitespace-nowrap">
+                  <span
+                    className={`font-serif text-base sm:text-xl lg:text-2xl font-bold tracking-tight group-hover:text-[#F59E0B] transition-colors leading-tight whitespace-nowrap ${
+                      theme === "light" ? "text-stone-900" : "text-white"
+                    }`}
+                  >
                     Little Yak
                   </span>
                   <span className="hidden md:inline-block text-[10px] font-medium text-[#D97706] tracking-widest px-1.5 py-0.5 rounded bg-[#D97706]/10 border border-[#D97706]/30 shrink-0">
@@ -133,7 +128,7 @@ export default function Navbar({
                   </span>
                 </div>
                 {/* Subtitle hidden on mobile to prevent clutter and truncation */}
-                <span className="hidden sm:block text-[10px] text-[#A8A29E] tracking-wider uppercase leading-none mt-0.5">
+                <span className={`hidden sm:block text-[10px] tracking-wider uppercase leading-none mt-0.5 ${theme === "light" ? "text-stone-500" : "text-[#A8A29E]"}`}>
                   {lang === "fr" ? "Restaurant Tibétain • Paris 4e" : "Tibetan Dining • Paris 4th"}
                 </span>
               </div>
@@ -145,7 +140,11 @@ export default function Navbar({
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-xs xl:text-sm font-medium text-[#E7E5E4] hover:text-[#F59E0B] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D97706] hover:after:w-full after:transition-all after:duration-300 whitespace-nowrap"
+                  className={`text-xs xl:text-sm font-medium transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D97706] hover:after:w-full after:transition-all after:duration-300 whitespace-nowrap ${
+                    theme === "light"
+                      ? "text-stone-700 hover:text-[#D97706]"
+                      : "text-[#E7E5E4] hover:text-[#F59E0B]"
+                  }`}
                 >
                   {link.label[lang]}
                 </a>
@@ -154,12 +153,44 @@ export default function Navbar({
 
             {/* Right Side Actions Bar - Compact on Mobile */}
             <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+              {/* Theme Toggler */}
+              <motion.button
+                onClick={onToggleTheme}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.92 }}
+                className={`p-1.5 sm:p-2 rounded-full border transition-colors flex items-center justify-center shadow-sm cursor-pointer ${
+                  theme === "light"
+                    ? "bg-stone-100 hover:bg-stone-200 text-stone-800 border-stone-300"
+                    : "bg-[#24201D] hover:bg-[#38332E] text-[#FAF7F2] border-[#3E3832]"
+                }`}
+                title={
+                  theme === "dark"
+                    ? lang === "fr"
+                      ? "Passer au mode clair"
+                      : "Switch to light mode"
+                    : lang === "fr"
+                    ? "Passer au mode sombre"
+                    : "Switch to dark mode"
+                }
+                aria-label="Toggle theme"
+              >
+                {theme === "dark" ? (
+                  <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F59E0B]" />
+                ) : (
+                  <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8B1E28]" />
+                )}
+              </motion.button>
+
               {/* Language Switcher */}
               <motion.button
                 onClick={() => setLang(lang === "fr" ? "en" : "fr")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-1 px-1.5 sm:px-2.5 py-1 sm:py-1.5 text-[11px] sm:text-xs font-semibold rounded-full bg-[#24201D] hover:bg-[#38332E] text-[#FAF7F2] border border-[#3E3832] transition-colors"
+                className={`flex items-center gap-1 px-1.5 sm:px-2.5 py-1 sm:py-1.5 text-[11px] sm:text-xs font-semibold rounded-full border transition-colors ${
+                  theme === "light"
+                    ? "bg-stone-100 hover:bg-stone-200 text-stone-800 border-stone-300"
+                    : "bg-[#24201D] hover:bg-[#38332E] text-[#FAF7F2] border-[#3E3832]"
+                }`}
                 title={lang === "fr" ? "Switch to English" : "Passer en Français"}
                 aria-label="Toggle language"
               >
@@ -174,7 +205,11 @@ export default function Navbar({
                 onClick={onOpenCart}
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.92 }}
-                className="relative p-1.5 sm:p-2 rounded-full bg-[#24201D] hover:bg-[#38332E] text-[#FAF7F2] border border-[#3E3832] transition-colors flex items-center justify-center"
+                className={`relative p-1.5 sm:p-2 rounded-full border transition-colors flex items-center justify-center ${
+                  theme === "light"
+                    ? "bg-stone-100 hover:bg-stone-200 text-stone-800 border-stone-300"
+                    : "bg-[#24201D] hover:bg-[#38332E] text-[#FAF7F2] border-[#3E3832]"
+                }`}
                 title={lang === "fr" ? "Voir le panier à emporter" : "View Takeaway Basket"}
                 aria-label="Takeaway basket"
               >
@@ -205,7 +240,11 @@ export default function Navbar({
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-1.5 sm:p-2 rounded-lg bg-[#24201D] text-[#FAF7F2] hover:bg-[#38332E] border border-[#3E3832] transition-colors flex items-center justify-center"
+                className={`lg:hidden p-1.5 sm:p-2 rounded-lg border transition-colors flex items-center justify-center ${
+                  theme === "light"
+                    ? "bg-stone-100 hover:bg-stone-200 text-stone-800 border-stone-300"
+                    : "bg-[#24201D] text-[#FAF7F2] hover:bg-[#38332E] border-[#3E3832]"
+                }`}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
               >
@@ -229,7 +268,7 @@ export default function Navbar({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 top-[48px] sm:top-[56px] bg-black/80 backdrop-blur-sm z-40 lg:hidden"
+                className="fixed inset-0 top-[52px] sm:top-[60px] bg-black/80 backdrop-blur-sm z-40 lg:hidden"
                 onClick={() => setMobileMenuOpen(false)}
               />
 
@@ -239,11 +278,22 @@ export default function Navbar({
                 animate={{ opacity: 1, y: 0, height: "auto" }}
                 exit={{ opacity: 0, y: -15, height: 0 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed top-[48px] sm:top-[56px] left-0 right-0 z-50 bg-[#161413] border-b border-[#38332E] shadow-2xl lg:hidden max-h-[calc(100vh-56px)] overflow-y-auto"
+                className={`fixed top-[52px] sm:top-[60px] left-0 right-0 z-50 border-b shadow-2xl lg:hidden max-h-[calc(100dvh-60px)] overflow-y-auto ${
+                  theme === "light"
+                    ? "bg-white border-stone-200 text-stone-900"
+                    : "bg-[#161413] border-[#38332E] text-white"
+                }`}
+                data-lenis-prevent
               >
                 <div className="p-4 sm:p-5 space-y-3.5">
                   {/* Status Banner with Logo */}
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#201D1B] border border-[#332E2A] text-xs">
+                  <div
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-xs ${
+                      theme === "light"
+                        ? "bg-stone-100 border-stone-200 text-stone-900"
+                        : "bg-[#201D1B] border-[#332E2A] text-white"
+                    }`}
+                  >
                     <div className="flex items-center gap-2">
                       <img
                         src="/logo.png"
@@ -255,7 +305,11 @@ export default function Navbar({
                           isOpenNow ? "bg-emerald-500 animate-pulse" : "bg-amber-500"
                         }`}
                       />
-                      <span className="font-semibold text-white text-[11px] sm:text-xs">
+                      <span
+                        className={`font-semibold text-[11px] sm:text-xs ${
+                          theme === "light" ? "text-stone-900" : "text-white"
+                        }`}
+                      >
                         {isOpenNow
                           ? lang === "fr"
                             ? "Ouvert aujourd'hui • 12h00 – 22h30"
@@ -270,6 +324,43 @@ export default function Navbar({
                     </span>
                   </div>
 
+                  {/* Theme & Language Quick Selector */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={onToggleTheme}
+                      className={`flex-1 flex items-center justify-center gap-2 p-2.5 rounded-xl border text-xs font-semibold transition-colors ${
+                        theme === "light"
+                          ? "bg-stone-100 hover:bg-stone-200 border-stone-200 text-stone-900"
+                          : "bg-[#201D1B] hover:bg-[#2c2825] border-[#332E2A] text-white"
+                      }`}
+                    >
+                      {theme === "dark" ? (
+                        <>
+                          <Sun className="w-3.5 h-3.5 text-[#F59E0B]" />
+                          <span>{lang === "fr" ? "Mode Clair" : "Light Mode"}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="w-3.5 h-3.5 text-[#8B1E28]" />
+                          <span>{lang === "fr" ? "Mode Sombre" : "Dark Mode"}</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLang(lang === "fr" ? "en" : "fr")}
+                      className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-colors ${
+                        theme === "light"
+                          ? "bg-stone-100 hover:bg-stone-200 border-stone-200 text-stone-900"
+                          : "bg-[#201D1B] hover:bg-[#2c2825] border-[#332E2A] text-white"
+                      }`}
+                    >
+                      <Globe className="w-3.5 h-3.5 text-[#F59E0B]" />
+                      <span className="uppercase">{lang === "fr" ? "English" : "Français"}</span>
+                    </button>
+                  </div>
+
                   {/* Navigation Links with Icons */}
                   <nav className="grid grid-cols-1 gap-1">
                     {navLinks.map((link) => (
@@ -277,7 +368,11 @@ export default function Navbar({
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center justify-between py-2.5 px-3 rounded-xl text-xs sm:text-sm font-medium text-[#FAF7F2] hover:text-[#F59E0B] hover:bg-[#25211E] transition-colors border border-transparent hover:border-[#38332E]"
+                        className={`flex items-center justify-between py-2.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-colors border border-transparent ${
+                          theme === "light"
+                            ? "text-stone-800 hover:text-[#D97706] hover:bg-stone-100 hover:border-stone-200"
+                            : "text-[#FAF7F2] hover:text-[#F59E0B] hover:bg-[#25211E] hover:border-[#38332E]"
+                        }`}
                       >
                         <div className="flex items-center gap-2.5">
                           <span className="text-base">{link.icon}</span>

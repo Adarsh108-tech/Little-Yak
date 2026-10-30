@@ -1,5 +1,7 @@
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -119,7 +121,7 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="fr" className={`${playfair.variable} ${jakarta.variable} scroll-smooth`}>
+    <html lang="fr" className={`${playfair.variable} ${jakarta.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -127,7 +129,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-screen bg-[#121110] text-[#FAF7F2] font-sans selection:bg-[#D97706] selection:text-white">
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

@@ -23,6 +23,7 @@ export default function TakeoutCartDrawer({
   onRemoveItem,
   onClearCart,
   lang,
+  theme = "dark",
 }) {
   const [pickupTime, setPickupTime] = useState("asap");
   const [customerName, setCustomerName] = useState("");
@@ -68,20 +69,30 @@ export default function TakeoutCartDrawer({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="w-full max-w-md bg-[#161413] border-l border-[#2D2824] h-full flex flex-col justify-between shadow-2xl"
+            className={`w-full max-w-md border-l h-full flex flex-col justify-between shadow-2xl transition-colors duration-300 ${
+              theme === "light"
+                ? "bg-white border-stone-200 text-stone-900"
+                : "bg-[#161413] border-[#2D2824] text-white"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer Header */}
-            <div className="p-5 border-b border-[#2D2824] flex items-center justify-between bg-[#1A1816]">
+            <div className={`p-5 border-b flex items-center justify-between ${
+              theme === "light" ? "bg-stone-50 border-stone-200" : "bg-[#1A1816] border-[#2D2824]"
+            }`}>
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-full bg-[#8B1E28]/40 border border-[#D97706]/40 flex items-center justify-center">
                   <ShoppingBag className="w-4 h-4 text-[#F59E0B]" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-lg font-bold text-white">
+                  <h3 className={`font-serif text-lg font-bold ${
+                    theme === "light" ? "text-stone-900" : "text-white"
+                  }`}>
                     {lang === "fr" ? "Panier À Emporter" : "Takeaway Basket"}
                   </h3>
-                  <span className="text-[11px] text-[#A8A29E]">
+                  <span className={`text-[11px] ${
+                    theme === "light" ? "text-stone-500" : "text-[#A8A29E]"
+                  }`}>
                     {cart.length}{" "}
                     {lang === "fr"
                       ? cart.length > 1
@@ -98,14 +109,18 @@ export default function TakeoutCartDrawer({
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="p-2 rounded-full bg-[#272320] text-[#A8A29E] hover:text-white hover:bg-[#38332E] transition-colors"
+                className={`p-2 rounded-full transition-colors ${
+                  theme === "light"
+                    ? "bg-stone-100 text-stone-600 hover:text-stone-900 hover:bg-stone-200"
+                    : "bg-[#272320] text-[#A8A29E] hover:text-white hover:bg-[#38332E]"
+                }`}
               >
                 <X className="w-5 h-5" />
               </motion.button>
             </div>
 
             {/* Drawer Content */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-5">
+            <div className="flex-1 overflow-y-auto p-5 space-y-5" data-lenis-prevent>
               {cart.length === 0 ? (
                 <div className="text-center py-16 space-y-3">
                   <div className="w-16 h-16 flex items-center justify-center mx-auto">

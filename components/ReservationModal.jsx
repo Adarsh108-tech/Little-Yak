@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function ReservationModal({ isOpen, onClose, lang }) {
+export default function ReservationModal({ isOpen, onClose, lang, theme = "dark" }) {
   const [step, setStep] = useState(1);
   const [guests, setGuests] = useState("2");
   const [date, setDate] = useState("2026-11-01");
@@ -24,6 +24,7 @@ export default function ReservationModal({ isOpen, onClose, lang }) {
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDate(today);
     setMinDate(today);
   }, []);
@@ -74,20 +75,30 @@ export default function ReservationModal({ isOpen, onClose, lang }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 15 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="relative w-full max-w-xl bg-[#181614] border border-[#3E3832] rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+            className={`relative w-full max-w-xl border rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] transition-colors duration-300 ${
+              theme === "light"
+                ? "bg-white border-stone-200 text-stone-900"
+                : "bg-[#181614] border-[#3E3832] text-white"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="p-5 border-b border-[#2D2824] bg-[#1E1B19] flex items-center justify-between">
+            <div className={`p-5 border-b flex items-center justify-between ${
+              theme === "light" ? "bg-stone-50 border-stone-200" : "bg-[#1E1B19] border-[#2D2824]"
+            }`}>
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-full bg-[#8B1E28]/40 border border-[#D97706]/40 flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-[#F59E0B]" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-lg font-bold text-white">
+                  <h3 className={`font-serif text-lg font-bold ${
+                    theme === "light" ? "text-stone-900" : "text-white"
+                  }`}>
                     {lang === "fr" ? "Réserver une Table" : "Book a Table"}
                   </h3>
-                  <span className="text-[11px] text-[#A8A29E]">
+                  <span className={`text-[11px] ${
+                    theme === "light" ? "text-stone-500" : "text-[#A8A29E]"
+                  }`}>
                     {lang === "fr"
                       ? "Confirmation immédiate • Sans frais"
                       : "Instant Confirmation • No Booking Fees"}
@@ -99,14 +110,18 @@ export default function ReservationModal({ isOpen, onClose, lang }) {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={resetAndClose}
-                className="p-2 rounded-full bg-[#272320] text-[#A8A29E] hover:text-white hover:bg-[#38332E] transition-colors"
+                className={`p-2 rounded-full transition-colors ${
+                  theme === "light"
+                    ? "bg-stone-100 text-stone-600 hover:text-stone-900 hover:bg-stone-200"
+                    : "bg-[#272320] text-[#A8A29E] hover:text-white hover:bg-[#38332E]"
+                }`}
               >
                 <X className="w-5 h-5" />
               </motion.button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 overflow-y-auto">
+            <div className="p-6 overflow-y-auto" data-lenis-prevent>
               {step === 1 ? (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   {/* Seating Area Preference */}

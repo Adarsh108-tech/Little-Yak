@@ -5,17 +5,21 @@ import { Phone, MapPin, Clock, ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { FadeInOnScroll } from "./MotionWrapper";
 
-export default function Footer({ lang, setLang, onOpenReservation }) {
+export default function Footer({ lang, theme = "dark", setLang, onOpenReservation }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer className="bg-[#0E0D0C] text-[#A8A29E] border-t border-[#24201D] relative">
+    <footer className={`border-t relative transition-colors duration-300 ${
+      theme === "light"
+        ? "bg-stone-100 text-stone-600 border-stone-200"
+        : "bg-[#0E0D0C] text-[#A8A29E] border-[#24201D]"
+    }`}>
       {/* Decorative Prayer Flag Ribbon */}
       <div className="w-full h-1 bg-prayer-flags opacity-80" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-24 lg:pb-16">
         <FadeInOnScroll className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Info */}
           <div className="space-y-4">
@@ -28,23 +32,31 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
                 />
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold text-white block leading-tight">
+                <span className={`font-serif text-2xl font-bold block leading-tight ${
+                  theme === "light" ? "text-stone-900" : "text-white"
+                }`}>
                   Little Yak
                 </span>
-                <span className="text-xs text-[#F59E0B] font-serif">
+                <span className="text-xs text-[#D97706] font-serif">
                   {restaurantInfo.tibetanName}
                 </span>
               </div>
             </div>
 
-            <p className="text-xs leading-relaxed text-[#8C857F]">
+            <p className={`text-xs leading-relaxed ${
+              theme === "light" ? "text-stone-600" : "text-[#8C857F]"
+            }`}>
               {lang === "fr"
                 ? "Restaurant traditionnel tibétain & népalais à Paris 4e. Momos façonnés minute, spécialités réconfortantes et salle voûtée en pierre médiévale."
                 : "Traditional Tibetan & Nepalese restaurant in Paris 4th. Handmade steamed & pan-fried dumplings, slow broths, and medieval stone vault dining."}
             </p>
 
             <div className="pt-1">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#1C1A18] border border-[#2E2A26] text-[11px] text-[#F59E0B]">
+              <span className={`inline-block px-3 py-1 rounded-full border text-[11px] ${
+                theme === "light"
+                  ? "bg-white border-stone-200 text-[#D97706]"
+                  : "bg-[#1C1A18] border-[#2E2A26] text-[#F59E0B]"
+              }`}>
                 {lang === "fr" ? "བཀྲ་ཤིས་བདེ་ལེགས • Tashi Delek" : "བཀྲ་ཤིས་བདེ་ལེགས • Tashi Delek"}
               </span>
             </div>
@@ -52,7 +64,9 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="font-serif text-sm font-bold text-white uppercase tracking-wider">
+            <h4 className={`font-serif text-sm font-bold uppercase tracking-wider ${
+              theme === "light" ? "text-stone-900" : "text-white"
+            }`}>
               {lang === "fr" ? "Navigation" : "Quick Links"}
             </h4>
             <ul className="space-y-2 text-xs">
@@ -67,7 +81,9 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
                 };
                 return (
                   <li key={hash}>
-                    <a href={`#${hash}`} className="hover:text-[#F59E0B] transition-colors">
+                    <a href={`#${hash}`} className={`transition-colors ${
+                      theme === "light" ? "text-stone-600 hover:text-[#D97706]" : "hover:text-[#F59E0B]"
+                    }`}>
                       {labels[hash][lang]}
                     </a>
                   </li>
@@ -78,17 +94,23 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
 
           {/* Practical Contacts */}
           <div className="space-y-3">
-            <h4 className="font-serif text-sm font-bold text-white uppercase tracking-wider">
+            <h4 className={`font-serif text-sm font-bold uppercase tracking-wider ${
+              theme === "light" ? "text-stone-900" : "text-white"
+            }`}>
               {lang === "fr" ? "Contact & Réservation" : "Contact & Bookings"}
             </h4>
-            <div className="space-y-2.5 text-xs text-[#8C857F]">
+            <div className={`space-y-2.5 text-xs ${
+              theme === "light" ? "text-stone-600" : "text-[#8C857F]"
+            }`}>
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#D97706] shrink-0 mt-0.5" />
                 <span>61 Rue Quincampoix, 75004 Paris</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#D97706] shrink-0" />
-                <a href={`tel:${restaurantInfo.phoneRaw}`} className="hover:text-white transition-colors">
+                <a href={`tel:${restaurantInfo.phoneRaw}`} className={`transition-colors ${
+                  theme === "light" ? "hover:text-stone-900" : "hover:text-white"
+                }`}>
                   {restaurantInfo.phone}
                 </a>
               </div>
@@ -114,10 +136,14 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
 
           {/* Language & Local Information */}
           <div className="space-y-3">
-            <h4 className="font-serif text-sm font-bold text-white uppercase tracking-wider">
+            <h4 className={`font-serif text-sm font-bold uppercase tracking-wider ${
+              theme === "light" ? "text-stone-900" : "text-white"
+            }`}>
               {lang === "fr" ? "Langue & Quartier" : "Language & Area"}
             </h4>
-            <p className="text-xs text-[#8C857F] leading-relaxed">
+            <p className={`text-xs leading-relaxed ${
+              theme === "light" ? "text-stone-600" : "text-[#8C857F]"
+            }`}>
               {lang === "fr"
                 ? "Proche de Rambuteau, Châtelet-Les Halles, Hôtel de Ville et du Centre Pompidou."
                 : "Steps from Rambuteau, Châtelet-Les Halles, City Hall and the Centre Pompidou."}
@@ -130,6 +156,8 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
                   lang === "fr"
                     ? "bg-[#D97706] text-black border-[#D97706]"
+                    : theme === "light"
+                    ? "bg-white text-stone-800 border-stone-300 hover:bg-stone-50"
                     : "bg-[#1E1C1A] text-white border-[#332E2A] hover:bg-[#2C2825]"
                 }`}
               >
@@ -140,6 +168,8 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
                   lang === "en"
                     ? "bg-[#D97706] text-black border-[#D97706]"
+                    : theme === "light"
+                    ? "bg-white text-stone-800 border-stone-300 hover:bg-stone-50"
                     : "bg-[#1E1C1A] text-white border-[#332E2A] hover:bg-[#2C2825]"
                 }`}
               >
@@ -151,7 +181,7 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
             <div className="pt-3">
               <button
                 onClick={scrollToTop}
-                className="inline-flex items-center gap-1.5 text-xs text-[#D97706] hover:text-[#F59E0B] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs text-[#D97706] hover:text-[#B45309] transition-colors"
               >
                 <ArrowUp className="w-3.5 h-3.5" />
                 <span>{lang === "fr" ? "Haut de page" : "Back to top"}</span>
@@ -161,7 +191,9 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
         </FadeInOnScroll>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[#1F1C1A] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#6B6560]">
+        <div className={`pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] ${
+          theme === "light" ? "border-stone-200 text-stone-500" : "border-[#1F1C1A] text-[#6B6560]"
+        }`}>
           <div>
             © 2026 Little Yak Paris.{" "}
             {lang === "fr"
@@ -170,15 +202,15 @@ export default function Footer({ lang, setLang, onOpenReservation }) {
           </div>
 
           <div className="flex items-center gap-4">
-            <a href="#accueil" className="hover:text-white transition-colors">
+            <a href="#accueil" className={`transition-colors ${theme === "light" ? "hover:text-stone-900" : "hover:text-white"}`}>
               {lang === "fr" ? "Mentions Légales" : "Legal Notice"}
             </a>
             <span>•</span>
-            <a href="#accueil" className="hover:text-white transition-colors">
+            <a href="#accueil" className={`transition-colors ${theme === "light" ? "hover:text-stone-900" : "hover:text-white"}`}>
               {lang === "fr" ? "Confidentialité" : "Privacy Policy"}
             </a>
             <span>•</span>
-            <span className="text-[#8C857F]">
+            <span className={theme === "light" ? "text-stone-500" : "text-[#8C857F]"}>
               {lang === "fr" ? "Fait avec amour pour l'Himalaya" : "Crafted with love for the Himalayas"}
             </span>
           </div>

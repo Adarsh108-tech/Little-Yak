@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeInOnScroll } from "./MotionWrapper";
 
-export default function GallerySection({ lang }) {
+export default function GallerySection({ lang, theme = "dark" }) {
   const [activeTab, setActiveTab] = useState("all");
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
@@ -52,28 +52,43 @@ export default function GallerySection({ lang }) {
     lightboxIndex !== null ? filteredPhotos[lightboxIndex] : null;
 
   return (
-    <section id="galerie" className="py-20 bg-[#161413] relative border-t border-[#2D2824]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="galerie"
+      className={`min-h-[calc(100dvh-3.5rem)] sm:min-h-[calc(100dvh-4rem)] flex flex-col justify-center py-8 sm:py-12 md:py-16 relative border-t overflow-hidden w-full transition-colors duration-300 ${
+        theme === "light"
+          ? "bg-[#FAF7F2] border-stone-200"
+          : "bg-[#161413] border-[#2D2824]"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Header with FadeInOnScroll */}
-        <FadeInOnScroll className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#272320] border border-[#3E3832] text-xs font-semibold text-[#F59E0B] uppercase tracking-widest mb-3">
+        <FadeInOnScroll className="text-center max-w-3xl mx-auto mb-5 sm:mb-8">
+          <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] sm:text-xs font-semibold uppercase tracking-widest mb-2.5 ${
+            theme === "light"
+              ? "bg-amber-50 border-amber-300 text-amber-900"
+              : "bg-[#272320] border-[#3E3832] text-[#F59E0B]"
+          }`}>
             <Camera className="w-3.5 h-3.5" />
             <span>{lang === "fr" ? "Galerie de Photos" : "Photo Gallery"}</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className={`font-serif text-2xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4 leading-tight ${
+            theme === "light" ? "text-stone-900" : "text-white"
+          }`}>
             {lang === "fr" ? (
               <>
-                Instantanés d'un Voyage <br />
-                <span className="text-[#F59E0B] italic">Entre Paris et Lhassa</span>
+                Instantanés d&apos;un Voyage <br />
+                <span className="text-[#D97706] italic">Entre Paris et Lhassa</span>
               </>
             ) : (
               <>
                 Snapshots of a Journey <br />
-                <span className="text-[#F59E0B] italic">Between Paris and Lhasa</span>
+                <span className="text-[#D97706] italic">Between Paris and Lhasa</span>
               </>
             )}
           </h2>
-          <p className="text-[#A8A29E] text-sm sm:text-base leading-relaxed">
+          <p className={`text-xs sm:text-sm md:text-base leading-relaxed ${
+            theme === "light" ? "text-stone-600" : "text-[#A8A29E]"
+          }`}>
             {lang === "fr"
               ? "Découvrez en images la chaleur des voûtes en pierre, le soin apporté au façonnage de chaque momo et la convivialité qui règne dans notre restaurant."
               : "Explore our cozy subterranean stone arches, the delicate hand-folding of each dumpling, and the welcoming warmth of our Parisian Tibetan home."}
@@ -81,15 +96,19 @@ export default function GallerySection({ lang }) {
         </FadeInOnScroll>
 
         {/* Tab Filters with layout indicator */}
-        <FadeInOnScroll delay={0.1} className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+        <FadeInOnScroll delay={0.1} className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto pb-3 mb-5 sm:mb-8 scrollbar-none">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap z-10 ${
-                  isActive ? "text-white" : "text-[#A8A29E] hover:text-white"
+                className={`relative px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap z-10 ${
+                  isActive
+                    ? "text-white"
+                    : theme === "light"
+                    ? "text-stone-600 hover:text-stone-900"
+                    : "text-[#A8A29E] hover:text-white"
                 }`}
               >
                 {isActive && (
@@ -100,7 +119,13 @@ export default function GallerySection({ lang }) {
                   />
                 )}
                 {!isActive && (
-                  <div className="absolute inset-0 bg-[#1E1C1A] rounded-full border border-[#332E2A] -z-10" />
+                  <div
+                    className={`absolute inset-0 rounded-full border -z-10 ${
+                      theme === "light"
+                        ? "bg-stone-100 border-stone-200"
+                        : "bg-[#1E1C1A] border-[#332E2A]"
+                    }`}
+                  />
                 )}
                 {tab.label[lang]}
               </button>
@@ -111,7 +136,7 @@ export default function GallerySection({ lang }) {
         {/* Photos Grid with AnimatePresence & Layout */}
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4"
         >
           <AnimatePresence>
             {filteredPhotos.map((photo, idx) => (
@@ -124,7 +149,7 @@ export default function GallerySection({ lang }) {
                 transition={{ duration: 0.35 }}
                 whileHover={{ y: -5 }}
                 onClick={() => setLightboxIndex(idx)}
-                className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden cursor-pointer border border-[#332E2A] bg-[#1F1C1A] shadow-lg"
+                className="group relative h-36 sm:h-52 md:h-64 lg:h-72 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#332E2A] bg-[#1F1C1A] shadow-lg"
               >
                 <img
                   src={photo.src}

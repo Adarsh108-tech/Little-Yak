@@ -4,7 +4,7 @@ import { useState } from "react";
 import { X, Plus, Minus, ShoppingBag, Check } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function DishModal({ dish, lang, onClose, onAddToCart }) {
+export default function DishModal({ dish, lang, theme = "dark", onClose, onAddToCart }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState(
     dish.options ? dish.options[0] : null
@@ -40,7 +40,11 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.94, y: 15 }}
         transition={{ type: "spring", stiffness: 350, damping: 28 }}
-        className="relative w-full max-w-2xl bg-[#1A1816] border border-[#3E3832] rounded-3xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col"
+        className={`relative w-full max-w-2xl border rounded-3xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col ${
+          theme === "light"
+            ? "bg-white border-stone-200 text-stone-900"
+            : "bg-[#1A1816] border-[#3E3832] text-white"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -54,7 +58,7 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
         </motion.button>
 
         {/* Scrollable Content Container */}
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto" data-lenis-prevent>
           {/* Dish Header Image */}
           <div className="relative h-64 sm:h-72 w-full bg-[#121110]">
             <img
@@ -62,7 +66,9 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
               alt={dish.name}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1816] via-[#1A1816]/30 to-transparent" />
+            <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${
+              theme === "light" ? "from-white" : "from-[#1A1816]"
+            }`} />
 
             {/* Badges Overlay */}
             <div className="absolute top-4 left-4 flex flex-wrap gap-2">
@@ -92,19 +98,25 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
           {/* Details Body */}
           <div className="p-6 sm:p-8 space-y-6">
             {/* Title & Price */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-[#2E2A26] pb-4">
+            <div className={`flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b pb-4 ${
+              theme === "light" ? "border-stone-200" : "border-[#2E2A26]"
+            }`}>
               <div>
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-1">
+                <h3 className={`font-serif text-2xl sm:text-3xl font-bold mb-1 ${
+                  theme === "light" ? "text-stone-900" : "text-white"
+                }`}>
                   {dish.name}
                 </h3>
-                <div className="flex items-center gap-3 text-xs text-[#A8A29E]">
+                <div className={`flex items-center gap-3 text-xs ${
+                  theme === "light" ? "text-stone-500" : "text-[#A8A29E]"
+                }`}>
                   {/* Spice meter */}
                   <div className="flex items-center gap-1">
-                    <span className="text-[#A8A29E] font-medium">
+                    <span className="font-medium">
                       {lang === "fr" ? "Épices :" : "Spiciness:"}
                     </span>
                     {dish.spicyLevel === 0 ? (
-                      <span className="text-[#10B981] font-medium">
+                      <span className="text-emerald-500 font-medium">
                         {lang === "fr" ? "Doux / Non pimenté" : "Mild / Not spicy"}
                       </span>
                     ) : (
@@ -118,7 +130,7 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
                 </div>
               </div>
 
-              <div className="text-2xl sm:text-3xl font-serif font-bold text-[#F59E0B]">
+              <div className="text-2xl sm:text-3xl font-serif font-bold text-[#D97706]">
                 {dish.price.toFixed(2)} €
               </div>
             </div>
@@ -128,7 +140,9 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#D97706] mb-2">
                 {lang === "fr" ? "Description & Tradition" : "Description & Heritage"}
               </h4>
-              <p className="text-[#D6D3D1] text-sm sm:text-base leading-relaxed">
+              <p className={`text-sm sm:text-base leading-relaxed ${
+                theme === "light" ? "text-stone-700" : "text-[#D6D3D1]"
+              }`}>
                 {dish.description[lang]}
               </p>
             </div>
@@ -136,14 +150,20 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
             {/* Ingredients */}
             {dish.ingredients && (
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#A8A29E] mb-2.5">
+                <h4 className={`text-xs font-bold uppercase tracking-wider mb-2.5 ${
+                  theme === "light" ? "text-stone-500" : "text-[#A8A29E]"
+                }`}>
                   {lang === "fr" ? "Ingrédients Principaux" : "Main Ingredients"}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {dish.ingredients[lang].map((ing, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 rounded-md bg-[#25211E] border border-[#38332E] text-xs text-[#E7E5E4]"
+                      className={`px-2.5 py-1 rounded-md border text-xs ${
+                        theme === "light"
+                          ? "bg-stone-100 border-stone-200 text-stone-800"
+                          : "bg-[#25211E] border-[#38332E] text-[#E7E5E4]"
+                      }`}
                     >
                       {ing}
                     </span>
@@ -155,7 +175,9 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
             {/* Options selection if applicable */}
             {dish.options && dish.options.length > 0 && (
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#A8A29E] mb-2.5">
+                <h4 className={`text-xs font-bold uppercase tracking-wider mb-2.5 ${
+                  theme === "light" ? "text-stone-500" : "text-[#A8A29E]"
+                }`}>
                   {lang === "fr" ? "Choisir votre option" : "Select Your Option"}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -166,13 +188,15 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
                       onClick={() => setSelectedOption(opt)}
                       className={`px-3 py-2.5 rounded-xl text-xs font-medium border text-left flex items-center justify-between transition-all ${
                         selectedOption === opt
-                          ? "bg-[#8B1E28]/40 border-[#F59E0B] text-white"
+                          ? "bg-[#8B1E28]/20 border-[#D97706] text-[#8B1E28] font-bold"
+                          : theme === "light"
+                          ? "bg-stone-50 border-stone-200 text-stone-700 hover:text-stone-900"
                           : "bg-[#25211E] border-[#38332E] text-[#A8A29E] hover:text-white"
                       }`}
                     >
                       <span>{opt}</span>
                       {selectedOption === opt && (
-                        <Check className="w-4 h-4 text-[#F59E0B]" />
+                        <Check className="w-4 h-4 text-[#D97706]" />
                       )}
                     </button>
                   ))}
@@ -181,22 +205,38 @@ export default function DishModal({ dish, lang, onClose, onAddToCart }) {
             )}
 
             {/* Quantity Selector & Add Button */}
-            <div className="pt-4 border-t border-[#2E2A26] flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3 bg-[#241F1C] border border-[#3E3832] rounded-xl px-3 py-1.5">
+            <div className={`pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-4 ${
+              theme === "light" ? "border-stone-200" : "border-[#2E2A26]"
+            }`}>
+              <div className={`flex items-center gap-3 border rounded-xl px-3 py-1.5 ${
+                theme === "light"
+                  ? "bg-stone-50 border-stone-300"
+                  : "bg-[#241F1C] border-[#3E3832]"
+              }`}>
                 <button
                   type="button"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-1 rounded-lg text-[#A8A29E] hover:text-white hover:bg-[#38332E] transition-colors"
+                  className={`p-1 rounded-lg transition-colors ${
+                    theme === "light"
+                      ? "text-stone-600 hover:text-stone-900 hover:bg-stone-200"
+                      : "text-[#A8A29E] hover:text-white hover:bg-[#38332E]"
+                  }`}
                 >
                   <Minus className="w-4 h-4" />
                 </button>
-                <span className="w-8 text-center font-bold text-white text-base">
+                <span className={`w-8 text-center font-bold text-base ${
+                  theme === "light" ? "text-stone-900" : "text-white"
+                }`}>
                   {quantity}
                 </span>
                 <button
                   type="button"
                   onClick={() => setQuantity(quantity + 1)}
-                  className="p-1 rounded-lg text-[#A8A29E] hover:text-white hover:bg-[#38332E] transition-colors"
+                  className={`p-1 rounded-lg transition-colors ${
+                    theme === "light"
+                      ? "text-stone-600 hover:text-stone-900 hover:bg-stone-200"
+                      : "text-[#A8A29E] hover:text-white hover:bg-[#38332E]"
+                  }`}
                 >
                   <Plus className="w-4 h-4" />
                 </button>
